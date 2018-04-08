@@ -9,7 +9,7 @@ An [OpenAI Gym](gym.openai.com) environment for Natural Language Processing.
 - To run the iPython notebooks you will also need to `pip install jupyter baseline`, then in the `nlp-gym` folder call `jupyter notebook` from the shell.
 
 
-#TO DO LIST
+## TO DO LIST
 
 In order to create the first environment of OpenAI for NLP we are working in the next steps:
 
