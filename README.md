@@ -17,7 +17,7 @@ In order to create the first environment of OpenAI for NLP we are working in the
   a) state (EnSen, DecSen)
   b) reward BLUE similarity metric
   c) terminal state End Of Sentence
-2) Propose and implement new architecture for the Deep Q Network to select the best action. 
+2) Explore and implement new architecture for the Deep Q Network to select the best action. 
 3) Test DQN, Prioritized Dueling DQN and A3C
 
 
