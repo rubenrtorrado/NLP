@@ -18,7 +18,7 @@ In order to create the first environment of OpenAI for NLP we are working in the
   b) reward BLUE similarity metric
   c) terminal state End Of Sentence
 2) Propose and implement new architecture for the Deep Network Sentence
-3) Test DQN, Prioritized, Dueling DQN and A3C
+3) Test DQN, Prioritized Dueling DQN and A3C
 
 
 
