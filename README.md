@@ -1,4 +1,4 @@
-# GVGAI NLP
+# GYM NLP
 
 An [OpenAI Gym](gym.openai.com) environment for Natural Language Processing.
 
