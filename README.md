@@ -1,4 +1,4 @@
-# GVGAI GYM
+# GVGAI NLP
 
 An [OpenAI Gym](gym.openai.com) environment for Natural Language Processing.
 
@@ -9,7 +9,7 @@ An [OpenAI Gym](gym.openai.com) environment for Natural Language Processing.
 - To run the iPython notebooks you will also need to `pip install jupyter baseline`, then in the `nlp-gym` folder call `jupyter notebook` from the shell.
 
 
-TO DO LIST
+#TO DO LIST
 
 In order to create the first environment of OpenAI for NLP we are working in the next steps:
 
@@ -20,11 +20,6 @@ In order to create the first environment of OpenAI for NLP we are working in the
 2) Propose and implement new architecture for the Deep Network Sentence
 3) Test DQN, Prioritized, Dueling DQN and A3C
 
-## Usage
-
-##TODO: Write usage instructions here
-
-## Contributing
 
 
 ## License
