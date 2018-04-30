@@ -78,15 +78,18 @@ class Arena():
         oneWon = 0
         twoWon = 0
         draws = 0
+        gameResults=[]
+        self.player1, self.player2 = self.player1, self.player1
         for _ in range(num):
             gameResult = self.playGame(verbose=verbose)
-            if gameResult==1:
-                oneWon+=1
-            elif gameResult==-1:
-                twoWon+=1
-            else:
-                draws+=1
+            #if gameResult==1:
+            #    oneWon+=1
+            #elif gameResult==-1:
+            #    twoWon+=1
+            #else:
+            #    draws+=1
             # bookkeeping + plot progress
+            gameResults.append(gameResult)
             eps += 1
             eps_time.update(time.time() - end)
             end = time.time()
@@ -94,17 +97,19 @@ class Arena():
                                                                                                        total=bar.elapsed_td, eta=bar.eta_td)
             bar.next()
 
-        self.player1, self.player2 = self.player2, self.player1
-        
+        self.player1, self.player2 = self.player2, self.player2
+        gameResults2=[]
         for _ in range(num):
-            gameResult = self.playGame(verbose=verbose)
-            if gameResult==-1:
-                oneWon+=1                
-            elif gameResult==1:
-                twoWon+=1
-            else:
-                draws+=1
+            gameResult2 = self.playGame(verbose=verbose)
+            #if gameResult==-1:
+            #    oneWon+=1
+            #elif gameResult==1:
+            #    twoWon+=1
+            #else:
+            #    draws+=1
             # bookkeeping + plot progress
+
+            gameResults2.append(gameResult2)
             eps += 1
             eps_time.update(time.time() - end)
             end = time.time()
@@ -113,5 +118,6 @@ class Arena():
             bar.next()
             
         bar.finish()
-
-        return oneWon, twoWon, draws
+        finalScore1=np.sum(gameResults)/float(len(gameResults))
+        finalScore2 = np.sum(gameResults2) / float(len(gameResults2))
+        return finalScore1, finalScore2#oneWon, twoWon, draws
