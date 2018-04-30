@@ -48,7 +48,8 @@ class NLPGame(Game):
         # sample of encoder and decoder
         self.nround=0
         r=np.random.randint(np.shape(self.X)[0], size=1)
-        return self.X[r]
+        self.target=self.Y_seq[r[0]]
+        return self.X[r[0]]
 
     def getBoardSize(self):#done
         # (a,b) tuple
@@ -70,14 +71,16 @@ class NLPGame(Game):
         #move = (int(action/self.n), action%self.n)
         #b.execute_move(move, player)
         #return (b.pieces, -player)
-        self.nround += self.nround
-        board.pop(0)
-        board=board.append(action)
-        return (board,-player)
+        self.nround += 1
+        #board.pop(0)
+        board=np.delete(board,0)
+        board=np.append(board,action)
+        #board=board.append(action)
+        return (board,player)
 
     def getValidMoves(self, board, player):#done
         # return a fixed size binary vector
-        #valids = [0]*self.getActionSize()
+        valids = [1]*self.getActionSize()
         #b = Board(self.n)
         #b.pieces = np.copy(board)
         #legalMoves =  b.get_legal_moves(player)
@@ -86,7 +89,7 @@ class NLPGame(Game):
         #    return np.array(valids)
         #for x, y in legalMoves:
         #    valids[self.n*x+y]=1
-        return np.array(self.Y_modified.shape[1])
+        return valids #np.array(self.Y_modified.shape[1])
 
     def getGameEnded(self, board, player):#REVIEW
         # return 0 if not ended, 1 if player 1 won, -1 if player 1 lost
@@ -109,12 +112,13 @@ class NLPGame(Game):
         if self.nround <=self.n:
             return 0
         else:
-            return 1
+            return (np.sum(np.array(board) == np.array(self.target)))/float(self.n)
 
     def getCanonicalForm(self, board, player):#done
         # return state if player==1, else return -state if player==-1
         #return player*board
-        return board
+        return np.array(board)
+
     def getSymmetries(self, board, pi):#done # dimension (state, pi (36 moves+v))
         # mirror, rotational
     #    assert(len(pi) == self.n**2+1)  # 1 for pass
@@ -132,9 +136,11 @@ class NLPGame(Game):
         l= [(board, pi)]
         return l
 
-    def stringRepresentation(self, board):#it is not neccesary
+    def stringRepresentation(self, board):#done
         # 8x8 numpy array (canonical board)
-        return board.tostring()
+        #return board
+        #st=np.array(board)
+        return board.tostring()#st.tostring()
 
     def getScore(self, board, player):#REVIEW
         # I need to calculate the score

@@ -82,7 +82,8 @@ class OthelloGame(Game):
 
     def stringRepresentation(self, board):
         # 8x8 numpy array (canonical board)
-        return board.tostring()
+        st=board.tostring()
+        return st
 
     def getScore(self, board, player):
         b = Board(self.n)

@@ -35,9 +35,14 @@ class NNetWrapper(NeuralNet):#done
         examples: list of examples, each example is of form (board, pi, v)
         """
         input_boards, target_pis, target_vs = list(zip(*examples))
-        input_boards = np.asarray(input_boards)#the input board it should be our sequence of 100 chracters
+        input_boards = np.asarray(input_boards)
+        input_boards=input_boards[:, np.newaxis]#[:,:, np.newaxis]
+
         target_pis = np.asarray(target_pis)
+        target_pis = target_pis[:, np.newaxis]
         target_vs = np.asarray(target_vs)
+        target_vs = target_vs[:, np.newaxis]
+        target_vs = target_vs[:, np.newaxis]
         self.nnet.model.fit(x = input_boards, y = [target_pis, target_vs], batch_size = args.batch_size, epochs = args.epochs)
 
     def predict(self, board):#done
@@ -48,7 +53,10 @@ class NNetWrapper(NeuralNet):#done
         start = time.time()
 
         # preparing input
-        board = board[np.newaxis, :, :]
+        board = board[np.newaxis, :]
+        board = board[np.newaxis, :]
+
+
 
         # run
         pi, v = self.nnet.model.predict(board)
