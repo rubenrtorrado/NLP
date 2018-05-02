@@ -1,0 +1,12 @@
+Score NN1 : 0.07 ; Score NN2 : 0.07
+Score NN1 : 0.07 ; Score NN2 : 0.07
+Score NN1 : 0.07 ; Score NN2 : 0.07
+Score NN1 : 0.06 ; Score NN2 : 0.06
+Score NN1 : 0.07 ; Score NN2 : 0.07
+Score NN1 : 0.07 ; Score NN2 : 0.07
+Score NN1 : 0.07 ; Score NN2 : 0.07
+Score NN1 : 0.07 ; Score NN2 : 0.07
+Score NN1 : 0.08 ; Score NN2 : 0.08
+Score NN1 : 0.07 ; Score NN2 : 0.07
+Score NN1 : 0.07 ; Score NN2 : 0.07
+Score NN1 : 0.07 ; Score NN2 : 0.07

@@ -114,6 +114,8 @@ class Coach():
             self.nnet.save_checkpoint(folder=self.args.checkpoint, filename='temp.pth.tar')
             self.pnet.load_checkpoint(folder=self.args.checkpoint, filename='temp.pth.tar')
             pmcts = MCTS(self.game, self.pnet, self.args)
+
+            print(np.shape(trainExamples))
             
             self.nnet.train(trainExamples)
             nmcts = MCTS(self.game, self.nnet, self.args)
@@ -123,8 +125,10 @@ class Coach():
                           lambda x: np.argmax(nmcts.getActionProb(x, temp=0)), self.game)
             #pwins, nwins, draws = arena.playGames(self.args.arenaCompare)
             finalScore1,finalScore2 = arena.playGames(self.args.arenaCompare)
+            with open("output.txt", "a") as text_file:
+                text_file.write('Score NN1 : %.2f ; Score NN2 : %.2f\n' % (finalScore1, finalScore1))
 
-            print('Score NN1 : %d ; Score NN2 : %d' % (finalScore1, finalScore1))
+            print('Score NN1 : %.2f ; Score NN2 : %.2f' % (finalScore1, finalScore1))
             if finalScore1 > finalScore2: #and float(nwins)/(pwins+nwins) < self.args.updateThreshold:
                 print('REJECTING NEW MODEL')
                 self.nnet.load_checkpoint(folder=self.args.checkpoint, filename='temp.pth.tar')

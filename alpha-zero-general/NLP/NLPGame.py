@@ -112,7 +112,10 @@ class NLPGame(Game):
         if self.nround <=self.n:
             return 0
         else:
-            return (np.sum(np.array(board) == np.array(self.target)))/float(self.n)
+            r=(np.sum(np.array(board) == np.array(self.target))) / float(self.n)
+            if r==0:
+                r=1/float(self.n)
+            return r
 
     def getCanonicalForm(self, board, player):#done
         # return state if player==1, else return -state if player==-1
