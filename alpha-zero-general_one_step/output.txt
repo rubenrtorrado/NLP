@@ -10,3 +10,6 @@ Score NN1 : 0.08 ; Score NN2 : 0.08
 Score NN1 : 0.07 ; Score NN2 : 0.07
 Score NN1 : 0.07 ; Score NN2 : 0.07
 Score NN1 : 0.07 ; Score NN2 : 0.07
+Score NN1 : -1.00 ; Score NN2 : -1.00
+Score NN1 : nan ; Score NN2 : nan
+Score NN1 : 0.00 ; Score NN2 : 0.00

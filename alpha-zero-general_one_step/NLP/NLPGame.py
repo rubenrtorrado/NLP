@@ -34,11 +34,12 @@ class NLPGame(Game):
             Y.append(char_to_n[label])
         self.X=X
         self.Y=Y
-        self.Y_seq=Y_seq
+        #self.Y_seq=Y_seq
         X_modified = np.reshape(X, (len(X), seq_length, 1))
         self.X_modified = X_modified / float(len(characters))
         self.Y_modified = np_utils.to_categorical(Y)
         self.nround=0
+        self.Y_seq = Y
 
     def getInitBoard(self):#done
         # return initial board (numpy board)
@@ -49,6 +50,7 @@ class NLPGame(Game):
         self.nround=0
         r=np.random.randint(np.shape(self.X)[0], size=1)
         self.target=self.Y_seq[r[0]]
+        self.origin=self.X[r[0]]
         return self.X[r[0]]
 
     def getBoardSize(self):#done
@@ -109,13 +111,20 @@ class NLPGame(Game):
         #if the game is cooperative, we dont need more -1
 
         # I think the score should the final score of the metric
-        if self.nround <=self.n:
+        #if self.nround <=self.n:
+        #    return 0
+        #else:
+        #    r=(np.sum(np.array(board) == np.array(self.target))) / float(self.n)
+        #    if r==0:
+        #        r=1/float(self.n)
+        if (np.sum(np.array(board) == np.array(self.origin))) / float(self.n)==1:
             return 0
+
+        if board[-1]==self.target:
+            return 1
         else:
-            r=(np.sum(np.array(board) == np.array(self.target))) / float(self.n)
-            if r==0:
-                r=1/float(self.n)
-            return r
+            return -1
+
 
     def getCanonicalForm(self, board, player):#done
         # return state if player==1, else return -state if player==-1

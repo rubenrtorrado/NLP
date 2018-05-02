@@ -73,6 +73,8 @@ class Arena():
         end = time.time()
         eps = 0
         maxeps = int(num)
+        finalScore1=0
+        finalScore2=0
 
         num = int(num/2)
         oneWon = 0
@@ -82,14 +84,15 @@ class Arena():
         self.player1, self.player2 = self.player1, self.player1
         for _ in range(num):
             gameResult = self.playGame(verbose=verbose)
-            #if gameResult==1:
+            if gameResult==1:
+                finalScore1 +=1
             #    oneWon+=1
             #elif gameResult==-1:
             #    twoWon+=1
             #else:
             #    draws+=1
             # bookkeeping + plot progress
-            gameResults.append(gameResult)
+            #gameResults.append(gameResult)
             eps += 1
             eps_time.update(time.time() - end)
             end = time.time()
@@ -101,7 +104,8 @@ class Arena():
         gameResults2=[]
         for _ in range(num):
             gameResult2 = self.playGame(verbose=verbose)
-            #if gameResult==-1:
+            if gameResult2==1:
+                finalScore1 += 1
             #    oneWon+=1
             #elif gameResult==1:
             #    twoWon+=1
@@ -109,7 +113,7 @@ class Arena():
             #    draws+=1
             # bookkeeping + plot progress
 
-            gameResults2.append(gameResult2)
+            #gameResults2.append(gameResult2)
             eps += 1
             eps_time.update(time.time() - end)
             end = time.time()
@@ -118,6 +122,6 @@ class Arena():
             bar.next()
             
         bar.finish()
-        finalScore1=np.sum(gameResults)/float(len(gameResults))
-        finalScore2 = np.sum(gameResults2) / float(len(gameResults2))
+        #finalScore1=np.sum(gameResults)
+        #finalScore2 = np.sum(gameResults2) / float(len(gameResults2))
         return finalScore1, finalScore2#oneWon, twoWon, draws
