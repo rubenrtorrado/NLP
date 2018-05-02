@@ -7,13 +7,13 @@ from NLP.keras_2.NNet import NNetWrapper as nn
 from utils import *
 
 args = dotdict({
-    'numIters': 1000,
-    'numEps': 100,
+    'numIters': 10000,
+    'numEps': 1000,
     'tempThreshold': 15,
     'updateThreshold': 0.6,
     'maxlenOfQueue': 200000,
     'numMCTSSims': 25,
-    'arenaCompare': 40,
+    'arenaCompare': 200,
     'cpuct': 1,
 
     'checkpoint': './temp/',
