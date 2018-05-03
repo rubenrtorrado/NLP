@@ -13,3 +13,16 @@ Score NN1 : 0.07 ; Score NN2 : 0.07
 Score NN1 : -1.00 ; Score NN2 : -1.00
 Score NN1 : nan ; Score NN2 : nan
 Score NN1 : 0.00 ; Score NN2 : 0.00
+Score NN1 : 61.00 ; Score NN2 : 61.00
+Score NN1 : 64.00 ; Score NN2 : 64.00
+Score NN1 : 63.00 ; Score NN2 : 63.00
+Score NN1 : 66.00 ; Score NN2 : 66.00
+Score NN1 : 71.00 ; Score NN2 : 71.00
+Score NN1 : 64.00 ; Score NN2 : 64.00
+Score NN1 : 68.00 ; Score NN2 : 68.00
+Score NN1 : 63.00 ; Score NN2 : 63.00
+Score NN1 : 8.00 ; Score NN2 : 8.00
+Score NN1 : 6.00 ; Score NN2 : 6.00
+Score NN1 : 5.00 ; Score NN2 : 5.00
+Score NN1 : 8.00 ; Score NN2 : 8.00
+Score NN1 : 6.00 ; Score NN2 : 6.00

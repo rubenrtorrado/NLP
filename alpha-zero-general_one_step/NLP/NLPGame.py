@@ -61,7 +61,7 @@ class NLPGame(Game):
     def getActionSize(self):#done
         # return number of actions
         #return self.n*self.n + 1
-        return self.Y_modified.shape[1]+1
+        return self.Y_modified.shape[1]
 
     def getNextState(self, board, player, action):#done the player should be 1 or -1
         # if player takes action on board, return next (board,player)

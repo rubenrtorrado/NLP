@@ -14,6 +14,7 @@ from keras.optimizers import *
 #from keras.layers import RNN
 from keras.utils import np_utils
 
+
 class NLPNNet():
     def __init__(self, game, args):
         # game params
@@ -64,3 +65,5 @@ class NLPNNet():
         self.v=Dense(1, activation='tanh',name='v')(drop3)
         self.model = Model(inputs=self.input_boards, outputs=[self.pi, self.v])
         self.model.compile(loss=['categorical_crossentropy', 'mean_squared_error'], optimizer=Adam(args.lr))
+
+
