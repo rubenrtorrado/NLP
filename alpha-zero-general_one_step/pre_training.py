@@ -11,7 +11,7 @@ from keras.models import *
 from keras.layers import *
 from keras.optimizers import *
 from keras.utils import *
-
+import os
 
 
 text = (open("sonnets.txt").read())
@@ -43,41 +43,69 @@ target_vs=np.ones((Y_modified.shape[0],1,1))
 
 #target_vs.shape
 
+
 input_boards = Input(shape=(X_modified.shape[1], X_modified.shape[2]))
 extract1 = LSTM(700, return_sequences=True)(input_boards)
 drop1 = Dropout(0.2)(extract1)
 extract2 = LSTM(700, return_sequences=True)(drop1)
 drop2=Dropout(0.2)(extract2)
-pi=Dense(38, activation='softmax', name='pi')(drop2)
-v=Dense(1, activation='tanh',name='v')(drop2)
+extract3 = LSTM(700, return_sequences=True)(drop2)
+drop3=Dropout(0.2)(extract3)
+pi=Dense(38, activation='softmax', name='pi')(drop3)
+v=Dense(1, activation='tanh',name='v')(drop3)
 model = Model(inputs=input_boards, outputs=[pi, v])
 model.compile(loss=['categorical_crossentropy', 'mean_squared_error'], optimizer='adam')
 
 #model.fit(X_modified, Y_final, epochs=100, batch_size=50)
-model.fit(x = X_modified, y = [Y_modified, target_vs], batch_size = 50, epochs = 100)
-model.save_weights('text_generator_400_0.2_400_0_Alpha.2_100.h5')
+#model.fit(x = X_modified, y = [Y_modified, target_vs], batch_size = 50, epochs = 100)
+#model.save_weights('text_generator_400_0.2_400_0_Alpha.2_100.h5')
 
 
-def save_checkpoint(self, folder='checkpoint', filename='checkpoint.pth.tar'):  # done
+def save_checkpoint(folder='checkpoint', filename='checkpoint.pth.tar'):  # done
     filepath = os.path.join(folder, filename)
     if not os.path.exists(folder):
         print("Checkpoint Directory does not exist! Making directory {}".format(folder))
         os.mkdir(folder)
     else:
         print("Checkpoint Directory exists! ")
-    self.nnet.model.save_weights(filepath)
+    model.save_weights(filepath)
 
 
-def load_checkpoint(self, folder='checkpoint', filename='checkpoint.pth.tar'):  # done
+def load_checkpoint(folder='checkpoint', filename='checkpoint.pth.tar'):  # done
     # https://github.com/pytorch/examples/blob/master/imagenet/main.py#L98
     filepath = os.path.join(folder, filename)
     if not os.path.exists(filepath):
         raise ("No model in path {}".format(filepath))
-    self.nnet.model.load_weights(filepath)
+    load_weights(filepath)
 
 
-save_checkpoint(folder='./temp/', filename='temp.pth.tar')
-save_checkpoint(folder='./temp/', filename='checkpoint')
-save_checkpoint(folder='./temp/', filename='best.pth.tar')
+#save_checkpoint(folder='./temp/', filename='temp.pth.tar')
+#save_checkpoint(folder='./temp/', filename='checkpoint')
+#save_checkpoint(folder='./temp/', filename='best.pth.tar')
 
+model.load_weights('text_generator_400_0.2_400_0_Alpha.2_100.h5')
+
+string_mapped = np.reshape(X[99], (1, 1,seq_length))
+full_string=string_mapped
+print(string_mapped)
+print(np.shape(string_mapped))
+
+#full_string = [n_to_char[value] for value in string_mapped]
+# generating characters
+for i in range(400):
+    #x = np.reshape(string_mapped,(1,len(string_mapped), 1))
+    #x = x / float(len(characters))
+    x=string_mapped
+    pred_index = np.argmax(model.predict(x, verbose=0))
+    seq=pred_index
+    #seq = [n_to_char[value] for value in string_mapped]
+    full_string.append(pred_index)
+
+    string_mapped.append(pred_index)
+    string_mapped = string_mapped[1:len(string_mapped)]
+
+txt=""
+for char in full_string:
+    txt = txt+char
+txt
 
