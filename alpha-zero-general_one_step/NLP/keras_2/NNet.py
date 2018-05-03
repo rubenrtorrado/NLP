@@ -44,7 +44,10 @@ class NNetWrapper(NeuralNet):#done
         target_vs = np.asarray(target_vs)
         target_vs = target_vs[:, np.newaxis]
         target_vs = target_vs[:, np.newaxis]
-        tbCallBack = keras.callbacks.TensorBoard(log_dir='/Users/rubenrodrigueztorrado/Documents/NLP/NLP/alpha-zero-general_one_step/Graph', histogram_freq=0,
+        # change for dimension
+        input_boards= input_boards/float(np.shape(input_boards)[2])
+
+        tbCallBack = keras.callbacks.TensorBoard(log_dir='./Graph', histogram_freq=0,
                                                  write_graph=True, write_images=True)
         self.nnet.model.fit(x = input_boards, y = [target_pis, target_vs], batch_size = args.batch_size, epochs = args.epochs,callbacks=[tbCallBack])
 
