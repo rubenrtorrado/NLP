@@ -105,7 +105,7 @@ class Arena():
         for _ in range(num):
             gameResult2 = self.playGame(verbose=verbose)
             if gameResult2==1:
-                finalScore1 += 1
+                finalScore2 += 1
             #    oneWon+=1
             #elif gameResult==1:
             #    twoWon+=1
