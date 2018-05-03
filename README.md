@@ -1,26 +1,17 @@
-# GYM NLP
+# AlphaZero NLP
 
-An [OpenAI Gym](gym.openai.com) environment for Natural Language Processing.
+AlphaZero code for text generation
 
-## Installation
+This code is an adaptation of Alpha Zero General implementation:
 
-- Follow the installation instructions for the OpenAI Gym from its [repository](https://github.com/openai/gym)
-- Install Tensorflow
-- To run the iPython notebooks you will also need to `pip install jupyter baseline`, then in the `nlp-gym` folder call `jupyter notebook` from the shell.
+https://github.com/suragnair/alpha-zero-general
 
+We develop a new game which generate sequence of characters to generate text
 
-## To do list
+## Run
 
-In order to create the first environment of OpenAI for NLP we are working in the next steps:
-
-1) Finish step and reset function based on LSTM encoder and decoder network to generate the tuple (state, reward and terminal state ). In our case:
-  a) state (EnSen, DecSen)
-  b) reward BLUE similarity metric
-  c) terminal state End Of Sentence
-2) Explore and implement new architecture for the Deep Q Network to select the best action. 
-3) Test DQN, Prioritized Dueling DQN and A3C
-
-
+cd alpha-zero-general_one_step
+python main_NLP.py
 
 ## License
 
