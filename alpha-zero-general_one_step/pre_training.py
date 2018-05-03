@@ -24,7 +24,7 @@ char_to_n = {char:n for n, char in enumerate(characters)}
 trainning_data_p=0.5
 X = []
 Y = []
-length = len(text)*trainning_data_p
+length = round(len(text)*trainning_data_p)
 seq_length = 100
 
 for i in range(0, length-seq_length, 1):
@@ -41,7 +41,7 @@ Y_modified=Y_modified[:, np.newaxis]
 
 target_vs=np.ones((Y_modified.shape[0],1,1))
 
-target_vs.shape
+#target_vs.shape
 
 input_boards = Input(shape=(X_modified.shape[1], X_modified.shape[2]))
 extract1 = LSTM(700, return_sequences=True)(input_boards)
