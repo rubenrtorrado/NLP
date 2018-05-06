@@ -6,6 +6,7 @@ from pytorch_classification.utils import Bar, AverageMeter
 import time, os, sys
 from pickle import Pickler, Unpickler
 from random import shuffle
+from keras.utils import np_utils
 
 
 class Coach():
@@ -69,7 +70,43 @@ class Coach():
         It then pits the new neural network against the old one and accepts it
         only if it wins >= updateThreshold fraction of games.
         """
+        self.n = 100
+        text = (open("data/sonnets.txt").read())
+        text = text.lower()
 
+        characters = sorted(list(set(text)))
+
+        n_to_char = {n: char for n, char in enumerate(characters)}
+        char_to_n = {char: n for n, char in enumerate(characters)}
+
+        X = []
+        Y = []
+        Y_seq=[]
+        length = len(text)
+        seq_length = 100
+
+        for i in range(0, length - seq_length, 1):
+            sequence = text[i:i + seq_length]
+            sequence_2 = text[i + seq_length:i + seq_length + seq_length]
+            label = text[i + seq_length]
+            X.append([char_to_n[char] for char in sequence])
+            Y_seq.append([char_to_n[char] for char in sequence_2])
+            Y.append(char_to_n[label])
+        self.X=X
+        self.Y=Y
+        #self.Y_seq=Y_seq
+        X_modified = np.reshape(X, (len(X), seq_length, 1))
+        self.X_modified = X_modified / float(len(characters))
+        self.Y_modified = np_utils.to_categorical(Y)
+        #self.nround=0
+        self.Y_seq = Y
+        self.Y_seq_target=Y_seq
+        n_sonete=99
+        target_sentence=X[n_sonete]
+        target_y=Y[n_sonete]
+
+
+        actions=[]
         for i in range(1, self.args.numIters+1):
             # bookkeeping
             print('------ITER ' + str(i) + '------')
@@ -126,16 +163,43 @@ class Coach():
             #pwins, nwins, draws = arena.playGames(self.args.arenaCompare)
             finalScore1,finalScore2 = arena.playGames(self.args.arenaCompare)
             with open("output.txt", "a") as text_file:
-                text_file.write('Score NN1 : %.2f ; Score NN2 : %.2f\n' % (finalScore1, finalScore1))
+                text_file.write('Score NN1 : %.2f ; Score NN2 : %.2f\n' % (finalScore1, finalScore2))
 
-            print('Score NN1 : %.2f ; Score NN2 : %.2f' % (finalScore1, finalScore1))
+            print('Score NN1 : %.2f ; Score NN2 : %.2f' % (finalScore1, finalScore2))
             if finalScore1 > finalScore2: #and float(nwins)/(pwins+nwins) < self.args.updateThreshold:
                 print('REJECTING NEW MODEL')
                 self.nnet.load_checkpoint(folder=self.args.checkpoint, filename='temp.pth.tar')
+                arena = Arena(lambda x: np.argmax(pmcts.getActionProb(x, temp=0)),
+                              lambda x: np.argmax(pmcts.getActionProb(x, temp=0)), self.game)
             else:
                 print('ACCEPTING NEW MODEL')
                 self.nnet.save_checkpoint(folder=self.args.checkpoint, filename=self.getCheckpointFile(i))
-                self.nnet.save_checkpoint(folder=self.args.checkpoint, filename='best.pth.tar')                
+                self.nnet.save_checkpoint(folder=self.args.checkpoint, filename='best.pth.tar')
+                new_mcts=True
+            report_results=1
+            actions_eps=[]
+            tartget_ps=99
+            if report_results==1:
+                for _ in range(200):
+
+                    tmcts = MCTS(self.game, self.nnet, self.args)
+
+
+                    arena = Arena(lambda x: np.argmax(tmcts.getActionProb(x, temp=0)),
+                                  lambda x: np.argmax(tmcts.getActionProb(x, temp=0)), self.game)
+                    actions,board=arena.playGames_demo(self.args.arenaCompare,target_sentence,target_y)
+                    actions_eps.append(actions)
+                    #tartget_ps +=1
+                    n_sonete = n_sonete+1
+                    #target_sentence=X[n_sonete]
+                    target_sentence=board
+                    target_y=Y[n_sonete]
+                full_character = [n_to_char[value] for value in actions_eps]
+                txt = ""
+                for char in full_character:
+                    txt = txt + char
+                print(full_character)
+                print(txt)
 
     def getCheckpointFile(self, iteration):
         return 'checkpoint_' + str(iteration) + '.pth.tar'

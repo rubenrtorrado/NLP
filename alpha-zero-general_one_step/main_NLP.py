@@ -7,8 +7,8 @@ from NLP.keras_2.NNet import NNetWrapper as nn
 from utils import *
 
 args = dotdict({
-    'numIters': 1000,
-    'numEps': 10,
+    'numIters': 100,
+    'numEps': 100,
     'tempThreshold': 15,
     'updateThreshold': 0.6,
     'maxlenOfQueue': 200000,
@@ -19,7 +19,7 @@ args = dotdict({
     'checkpoint': './temp/',
     'load_model': True,
     #'load_folder_file': ('/dev/models/8x100x50','best.pth.tar'),
-    'load_folder_file': ('./temp','best.pth.tar'),
+    'load_folder_file': ('./temp','checkpoint_343.pth.tar'),
     'numItersForTrainExamplesHistory': 20,
 
 })

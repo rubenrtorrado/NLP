@@ -6,6 +6,10 @@ from .OthelloLogic import Board
 import numpy as np
 from keras.utils import np_utils
 
+import nltk
+
+# two words different
+from nltk.translate.bleu_score import sentence_bleu
 
 class NLPGame(Game):
     def __init__(self, n):#done
@@ -38,7 +42,7 @@ class NLPGame(Game):
         X_modified = np.reshape(X, (len(X), seq_length, 1))
         self.X_modified = X_modified / float(len(characters))
         self.Y_modified = np_utils.to_categorical(Y)
-        self.nround=0
+        #self.nround=0
         self.Y_seq = Y
 
     def getInitBoard(self):#done
@@ -47,11 +51,30 @@ class NLPGame(Game):
         #b = Board(self.n)
         #return np.array(b.pieces)
         # sample of encoder and decoder
-        self.nround=0
+        #self.nround=0
         r=np.random.randint(np.shape(self.X)[0], size=1)
+        self.n_round=0
         self.target=self.Y_seq[r[0]]
         self.origin=self.X[r[0]]
         return self.X[r[0]]
+
+        self.n_round=0
+
+    def getInitBoard_play(self,target_sentence,target_y):#done
+        board=target_sentence
+        self.target = target_y
+        self.origin = target_sentence
+        return board
+
+    def getInitBoard_BLEU(self,target_sentence,reference,n_to_char):#done
+        self.reference=reference
+        board=target_sentence
+        self.target_sentance=target_sentence
+        self.n_round=0
+
+        self.n_to_char=n_to_char
+
+        return board
 
     def getBoardSize(self):#done
         # (a,b) tuple
@@ -64,20 +87,11 @@ class NLPGame(Game):
         return self.Y_modified.shape[1]
 
     def getNextState(self, board, player, action):#done the player should be 1 or -1
-        # if player takes action on board, return next (board,player)
-        # action must be a valid move
-        #if action == self.n*self.n:
-        #    return (board, -player)
-        #b = Board(self.n)
-        #b.pieces = np.copy(board)
-        #move = (int(action/self.n), action%self.n)
-        #b.execute_move(move, player)
-        #return (b.pieces, -player)
-        self.nround += 1
-        #board.pop(0)
+
         board=np.delete(board,0)
         board=np.append(board,action)
-        #board=board.append(action)
+        #self.n_round +=0
+
         return (board,player)
 
     def getValidMoves(self, board, player):#done
@@ -94,29 +108,7 @@ class NLPGame(Game):
         return valids #np.array(self.Y_modified.shape[1])
 
     def getGameEnded(self, board, player):#REVIEW
-        # return 0 if not ended, 1 if player 1 won, -1 if player 1 lost
-        # player = 1
 
-
-        #b = Board(self.n)
-        #b.pieces = np.copy(board)
-        #if b.has_legal_moves(player):
-        #    return 0
-        #if b.has_legal_moves(-player):
-        #    return 0
-        #if b.countDiff(player) > 0:
-        #    return 1
-        #return -1
-
-        #if the game is cooperative, we dont need more -1
-
-        # I think the score should the final score of the metric
-        #if self.nround <=self.n:
-        #    return 0
-        #else:
-        #    r=(np.sum(np.array(board) == np.array(self.target))) / float(self.n)
-        #    if r==0:
-        #        r=1/float(self.n)
         if (np.sum(np.array(board) == np.array(self.origin))) / float(self.n)==1:
             return 0
 
@@ -124,6 +116,25 @@ class NLPGame(Game):
             return 1
         else:
             return -1
+
+
+    def getGameEnded_BLEU(self, board, player):#REVIEW
+
+        if self.n_round<100:
+            return 0
+        else:
+            reference=self.reference
+            candidate_input=self.target_sentence
+            candidate_input.append(board)
+
+            full_character = [self.n_to_char[value] for value in candidate_input]
+            candidate = ""
+            for char in full_character:
+                txt = txt + char
+
+            return nltk.translate.bleu_score.sentence_bleu(reference, candidate)
+
+
 
 
     def getCanonicalForm(self, board, player):#done
